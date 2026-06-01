@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Upload Report</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+font-family:Poppins;
+background:#f4f7fc;
+}
+
+.container{
+max-width:900px;
+margin:40px auto;
+background:white;
+padding:30px;
+border-radius:20px;
+box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+.upload-box{
+border:3px dashed #2ecc71;
+padding:50px;
+text-align:center;
+border-radius:20px;
+cursor:pointer;
+}
+
+input,textarea{
+width:100%;
+padding:15px;
+margin-top:15px;
+border:1px solid #ddd;
+border-radius:10px;
+}
+
+button{
+background:#2ecc71;
+color:white;
+padding:15px 30px;
+border:none;
+border-radius:10px;
+margin-top:15px;
+cursor:pointer;
+}
+
+button:hover{
+background:#27ae60;
+}
+
+#preview{
+max-width:300px;
+margin-top:20px;
+display:none;
+border-radius:10px;
+}
+
+.ai{
+margin-top:20px;
+padding:20px;
+background:#e8fff0;
+border-radius:15px;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>📷 Upload Garbage Report</h1>
+
+<br>
+
+<input type="file" id="file">
+
+<img id="preview">
+
+<input type="text" placeholder="Enter Location">
+
+<textarea rows="5" placeholder="Describe the issue"></textarea>
+
+<button onclick="detectWaste()">
+AI Detect Waste
+</button>
+
+<div class="ai">
+<h3 id="result">Prediction: Waiting...</h3>
+</div>
+
+<button>
+Submit Report
+</button>
+
+<br><br>
+
+<iframe
+width="100%"
+height="350"
+style="border:0;border-radius:15px;"
+src="https://maps.google.com/maps?q=Visakhapatnam&t=&z=13&ie=UTF8&iwloc=&output=embed">
+</iframe>
+
+</div>
+
+<script>
+
+file.onchange=(e)=>{
+
+let reader=new FileReader();
+
+reader.onload=()=>{
+
+preview.src=reader.result;
+preview.style.display='block';
+
+}
+
+reader.readAsDataURL(e.target.files[0]);
+
+}
+
+function detectWaste(){
+
+const waste=[
+"Plastic Waste ♻",
+"Food Waste 🍎",
+"Paper Waste 📄",
+"Mixed Garbage 🗑"
+];
+
+let random=
+waste[Math.floor(Math.random()*waste.length)];
+
+result.innerHTML=
+"Prediction : "+random;
+
+}
+
+</script>
+
+</body>
+</html>

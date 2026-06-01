@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EcoTrack Login</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#2ecc71,#27ae60);
+overflow:hidden;
+}
+
+.background-circle{
+position:absolute;
+border-radius:50%;
+background:rgba(255,255,255,.15);
+backdrop-filter:blur(10px);
+}
+
+.circle1{
+width:300px;
+height:300px;
+top:-100px;
+left:-100px;
+}
+
+.circle2{
+width:250px;
+height:250px;
+bottom:-80px;
+right:-80px;
+}
+
+.container{
+width:420px;
+padding:40px;
+background:rgba(255,255,255,.15);
+backdrop-filter:blur(15px);
+border-radius:25px;
+border:1px solid rgba(255,255,255,.2);
+box-shadow:0 15px 35px rgba(0,0,0,.2);
+color:white;
+animation:fadeIn 1s ease;
+z-index:10;
+}
+
+.logo{
+text-align:center;
+font-size:45px;
+margin-bottom:10px;
+}
+
+h2{
+text-align:center;
+margin-bottom:25px;
+}
+
+.role-selector{
+display:flex;
+gap:10px;
+margin-bottom:20px;
+}
+
+.role-btn{
+flex:1;
+padding:10px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+background:rgba(255,255,255,.2);
+color:white;
+font-weight:600;
+transition:.3s;
+}
+
+.role-btn.active{
+background:white;
+color:#2ecc71;
+}
+
+.input-group{
+margin-bottom:18px;
+}
+
+.input-group label{
+display:block;
+margin-bottom:6px;
+}
+
+.input-group input{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+outline:none;
+font-size:15px;
+}
+
+.password-box{
+position:relative;
+}
+
+.password-box span{
+position:absolute;
+right:15px;
+top:15px;
+cursor:pointer;
+color:#555;
+}
+
+.login-btn{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:white;
+color:#2ecc71;
+font-weight:700;
+font-size:16px;
+cursor:pointer;
+transition:.3s;
+}
+
+.login-btn:hover{
+transform:translateY(-3px);
+}
+
+.message{
+text-align:center;
+margin-top:15px;
+font-weight:600;
+}
+
+.register-link{
+text-align:center;
+margin-top:20px;
+}
+
+.register-link a{
+color:white;
+font-weight:600;
+text-decoration:none;
+}
+
+@keyframes fadeIn{
+
+from{
+opacity:0;
+transform:translateY(30px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+@media(max-width:500px){
+
+.container{
+width:90%;
+padding:25px;
+}
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="background-circle circle1"></div>
+<div class="background-circle circle2"></div>
+
+<div class="container">
+
+<div class="logo">♻</div>
+
+<h2>EcoTrack Login</h2>
+
+<div class="role-selector">
+
+<button class="role-btn active" id="userBtn">
+User
+</button>
+
+<button class="role-btn" id="adminBtn">
+Admin
+</button>
+
+</div>
+
+<div class="input-group">
+
+<label>Email</label>
+
+<input
+type="email"
+id="email"
+placeholder="Enter Email">
+
+</div>
+
+<div class="input-group">
+
+<label>Password</label>
+
+<div class="password-box">
+
+<input
+type="password"
+id="password"
+placeholder="Enter Password">
+
+<span onclick="togglePassword()">👁</span>
+
+</div>
+
+</div>
+
+<button
+class="login-btn"
+onclick="loginUser()">
+
+Login
+
+</button>
+
+<div class="message" id="message"></div>
+
+<div class="register-link">
+
+Don't have an account?
+
+<a href="register.html">
+Register
+</a>
+
+</div>
+
+</div>
+
+<script>
+
+let role="user";
+
+document.getElementById("userBtn")
+.addEventListener("click",()=>{
+
+role="user";
+
+document.getElementById("userBtn")
+.classList.add("active");
+
+document.getElementById("adminBtn")
+.classList.remove("active");
+
+});
+
+document.getElementById("adminBtn")
+.addEventListener("click",()=>{
+
+role="admin";
+
+document.getElementById("adminBtn")
+.classList.add("active");
+
+document.getElementById("userBtn")
+.classList.remove("active");
+
+});
+
+function togglePassword(){
+
+const pass=
+document.getElementById("password");
+
+pass.type=
+pass.type==="password"
+?
+"text"
+:
+"password";
+
+}
+
+async function loginUser(){
+
+const email =
+document.getElementById("email").value;
+
+const password =
+document.getElementById("password").value;
+
+const message=
+document.getElementById("message");
+
+message.innerHTML="⏳ Logging in...";
+
+try{
+
+const response = await fetch(
+
+"http://localhost:5000/api/auth/login",
+
+{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+email,
+password
+})
+
+}
+
+);
+
+const data =
+await response.json();
+
+if(data.success){
+
+localStorage.setItem(
+"token",
+data.token
+);
+
+localStorage.setItem(
+"user",
+JSON.stringify(data.user)
+);
+
+message.innerHTML=
+"✅ Login Successful";
+
+setTimeout(()=>{
+
+if(role==="admin"){
+
+window.location.href=
+"admin-dashboard.html";
+
+}
+else{
+
+window.location.href=
+"dashboard.html";
+
+}
+
+},1200);
+
+}
+else{
+
+message.innerHTML=
+"❌ "+data.message;
+
+}
+
+}
+catch(error){
+
+message.innerHTML=
+"❌ Server Error";
+
+console.log(error);
+
+}
+
+}
+
+</script>
+
+</body>
+</html>

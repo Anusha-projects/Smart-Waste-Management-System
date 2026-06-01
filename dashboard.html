@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EcoTrack Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#f5f7fa;
+}
+
+/* Header */
+
+.header{
+background:linear-gradient(135deg,#2ecc71,#27ae60);
+padding:25px 8%;
+color:white;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+.logout{
+padding:12px 24px;
+border:none;
+border-radius:30px;
+background:white;
+color:#2ecc71;
+font-weight:600;
+cursor:pointer;
+transition:.3s;
+}
+
+.logout:hover{
+transform:translateY(-3px);
+}
+
+/* Profile */
+
+.profile{
+background:white;
+margin:25px;
+padding:25px;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+}
+
+.profile-left h2{
+margin-bottom:10px;
+}
+
+.profile-right{
+font-size:60px;
+}
+
+/* Cards */
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+padding:25px;
+}
+
+.card{
+background:white;
+padding:30px;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+text-align:center;
+transition:.3s;
+cursor:pointer;
+}
+
+.card:hover{
+transform:translateY(-10px);
+}
+
+.card h2{
+font-size:40px;
+color:#2ecc71;
+margin-bottom:10px;
+}
+
+/* Quick Actions */
+
+.actions{
+padding:25px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
+
+.action-btn{
+padding:20px;
+border:none;
+border-radius:15px;
+background:#2ecc71;
+color:white;
+font-size:18px;
+cursor:pointer;
+transition:.3s;
+}
+
+.action-btn:hover{
+background:#27ae60;
+transform:translateY(-5px);
+}
+
+/* Leaderboard */
+
+.leaderboard{
+background:white;
+margin:25px;
+padding:25px;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.rank{
+padding:15px;
+margin:10px 0;
+background:#f8f8f8;
+border-radius:12px;
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+.header{
+flex-direction:column;
+gap:15px;
+text-align:center;
+}
+
+.profile{
+text-align:center;
+justify-content:center;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+<h1>
+👋 Welcome,
+<span id="username"></span>
+</h1>
+
+<button class="logout" onclick="logout()">
+Logout
+</button>
+
+</div>
+
+<!-- Profile -->
+
+<div class="profile">
+
+<div class="profile-left">
+
+<h2>User Profile</h2>
+
+<p><strong>Name:</strong> <span id="name"></span></p>
+
+<p><strong>Email:</strong> <span id="email"></span></p>
+
+<p><strong>Role:</strong> <span id="role"></span></p>
+
+</div>
+
+<div class="profile-right">
+♻️
+</div>
+
+</div>
+
+<!-- Stats -->
+
+<div class="cards">
+
+<div class="card">
+<h2 id="reports">0</h2>
+<p>Total Reports</p>
+</div>
+
+<div class="card">
+<h2 id="points">0</h2>
+<p>Reward Points</p>
+</div>
+
+<div class="card">
+<h2 id="rank">#4</h2>
+<p>Leaderboard Rank</p>
+</div>
+
+<div class="card">
+<h2>Active</h2>
+<p>Account Status</p>
+</div>
+
+</div>
+
+<!-- Quick Actions -->
+
+<div class="actions">
+
+<button class="action-btn"
+onclick="location.href='upload.html'">
+📷 Upload Waste Report
+</button>
+
+<button class="action-btn"
+onclick="location.href='incentives.html'">
+🏆 View Rewards
+</button>
+
+<button class="action-btn"
+onclick="location.href='index.html'">
+🏠 Go Home
+</button>
+
+</div>
+
+<!-- Leaderboard -->
+
+<div class="leaderboard">
+
+<h2>🏆 Top Contributors</h2>
+
+<div class="rank">
+🥇 Rahul — 2500 Points
+</div>
+
+<div class="rank">
+🥈 Priya — 2200 Points
+</div>
+
+<div class="rank">
+🥉 Kiran — 1800 Points
+</div>
+
+</div>
+
+<script>
+
+/* Check Login */
+
+const user =
+JSON.parse(localStorage.getItem("user"));
+
+if(!user){
+
+alert("Please Login First");
+
+window.location.href="login.html";
+
+}
+
+/* Show User Data */
+
+document.getElementById("username")
+.innerText = user.name;
+
+document.getElementById("name")
+.innerText = user.name;
+
+document.getElementById("email")
+.innerText = user.email;
+
+document.getElementById("role")
+.innerText = user.role || "User";
+
+document.getElementById("points")
+.innerText = user.points || 0;
+
+/* Temporary Values */
+
+document.getElementById("reports")
+.innerText = 0;
+
+/* Logout */
+
+function logout(){
+
+localStorage.removeItem("token");
+
+localStorage.removeItem("user");
+
+window.location.href="login.html";
+
+}
+
+</script>
+
+</body>
+</html>
