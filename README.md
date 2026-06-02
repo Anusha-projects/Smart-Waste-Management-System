@@ -20,10 +20,9 @@ A full-stack waste management platform where users can:
 - Garbage Reporting
 - Reward System
 - Admin Dashboard
-- Complaint Tracking
-
-## Screenshots
-(Add screenshots here)
+- Complaint Management
+- GPS tracking
+  
 
 ## Installation
 git clone <repo-link>
